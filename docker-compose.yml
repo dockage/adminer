@@ -4,3 +4,6 @@ services:
   adminer:
     restart: always
     image: dockage/adminer:4.2.5
+    ports:
+    - "80:80"
+    - "443:443"
