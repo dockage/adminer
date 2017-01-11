@@ -42,3 +42,27 @@ docker run --name='adminer' -d \
   --publish=80:80 \
 dockage/adminer:4.2.5
 ```
+
+
+## Upgrading
+
+To upgrade to newer `adminer` releases, simply follow this 3 step upgrade procedure.
+
+- **Step 1**: Update the docker image.
+
+```bash
+docker pull dockage/adminer:4.2.5
+```
+
+- **Step 2**: Stop and remove the currently running image
+
+```bash
+docker stop adminer
+docker rm adminer
+```
+
+- **Step 3**: Start the image
+
+```bash
+docker run --name=adminer -d [OPTIONS] dockage/adminer:4.2.5
+```
