@@ -7,15 +7,8 @@
 Pull the image from the docker index. This is the recommended method of installation as it is easier to update image. These builds are performed by the **Docker Trusted Build** service.
 
 ```bash
-docker pull dockage/adminer:4.2.5
-```
-
-You can also pull the `latest` tag which is built from the repository *HEAD*
-
-```bash
 docker pull dockage/adminer:latest
 ```
-
 
 Alternately you can build the image locally.
 
@@ -40,7 +33,7 @@ Alternately, you can manually launch the `adminer` container.
 ```bash
 docker run --name='adminer' -d \
   --publish=80:80 \
-dockage/adminer:4.2.5
+dockage/adminer:latest
 ```
 
 
@@ -51,7 +44,7 @@ To upgrade to newer `adminer` releases, simply follow this 3 step upgrade proced
 - **Step 1**: Update the docker image.
 
 ```bash
-docker pull dockage/adminer:4.2.5
+docker pull dockage/adminer:latest
 ```
 
 - **Step 2**: Stop and remove the currently running image
@@ -64,5 +57,5 @@ docker rm adminer
 - **Step 3**: Start the image
 
 ```bash
-docker run --name=adminer -d [OPTIONS] dockage/adminer:4.2.5
+docker run --name=adminer -d [OPTIONS] dockage/adminer:latest
 ```
