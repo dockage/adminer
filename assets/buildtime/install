@@ -1,0 +1,63 @@
+#!/usr/bin/env sh
+set -eu
+
+BUILD_PACKAGES_DEPENDENCIES=curl
+apk add --no-cache ${BUILD_PACKAGES_DEPENDENCIES}
+
+(
+    cd ${DOCKAGE_WEBROOT_DIR} \
+    && curl --retry 5 -SLO https://github.com/vrana/adminer/releases/download/v${ADMINER_VERSION}/adminer-${ADMINER_VERSION}.php \
+    && curl --retry 5 -SLO https://github.com/pematon/adminer-theme/archive/master.zip \
+    && unzip master.zip \
+    && mv ./adminer-theme-master/lib/* . \
+    && mv adminer-${ADMINER_VERSION}.php adminer.php \
+    && (
+        cd plugins \
+        && curl -SLO https://cdn.rawgit.com/vrana/adminer/master/plugins/plugin.php \
+        && curl -SLO https://cdn.rawgit.com/vrana/adminer/master/plugins/dump-bz2.php \
+        && curl -SLO https://cdn.rawgit.com/vrana/adminer/master/plugins/dump-zip.php \
+        && curl -SLO https://cdn.rawgit.com/vrana/adminer/master/plugins/dump-date.php \
+        && curl -SLO https://cdn.rawgit.com/vrana/adminer/master/plugins/dump-json.php \
+        && curl -SLO https://cdn.rawgit.com/vrana/adminer/master/plugins/tables-filter.php \
+        && curl -SLO https://cdn.rawgit.com/vrana/adminer/master/plugins/json-column.php \
+        && curl -SLO https://cdn.rawgit.com/vrana/adminer/master/plugins/links-direct.php
+        ) \
+    && rm -rf adminer-theme-master master.zip
+)
+
+cat << 'EOF' > ${DOCKAGE_WEBROOT_DIR}/index.php
+<?php
+
+    function adminer_object()
+    {
+        // Required to run any plugin.
+        include_once "./plugins/plugin.php";
+
+        // Plugins auto-loader.
+        foreach (glob("plugins/*.php") as $filename) {
+            include_once "./$filename";
+        }
+
+        // Specify enabled plugins here.
+        $plugins = array(
+            // AdminerTheme has to be the last one!
+            new AdminerTheme('default-blue'),
+            new AdminerDumpBz2(),
+            new AdminerDumpDate(),
+            new AdminerDumpJson(),
+            new AdminerDumpZip(),
+            new AdminerJsonColumn(),
+            new AdminerLinksDirect(),
+            new AdminerTablesFilter()
+        );
+
+        return new AdminerPlugin($plugins);
+    }
+
+    // Include original Adminer or Adminer Editor.
+    include "./adminer.php";
+EOF
+
+find ${DOCKAGE_WEBROOT_DIR} -type d -exec chmod 755 {} \;
+find ${DOCKAGE_WEBROOT_DIR} -type f -exec chmod 644 {} \;
+chown -R nginx:nginx ${DOCKAGE_WEBROOT_DIR}

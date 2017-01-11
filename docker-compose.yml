@@ -1,0 +1,6 @@
+version: '2'
+
+services:
+  adminer:
+    restart: always
+    image: dockage/adminer:4.2.5
