@@ -13,14 +13,13 @@ apk add --no-cache ${BUILD_PACKAGES_DEPENDENCIES}
     && mv adminer-${ADMINER_VERSION}.php adminer.php \
     && (
         cd plugins \
-        && curl -SLO https://cdn.rawgit.com/vrana/adminer/master/plugins/plugin.php \
-        && curl -SLO https://cdn.rawgit.com/vrana/adminer/master/plugins/dump-bz2.php \
-        && curl -SLO https://cdn.rawgit.com/vrana/adminer/master/plugins/dump-zip.php \
-        && curl -SLO https://cdn.rawgit.com/vrana/adminer/master/plugins/dump-date.php \
-        && curl -SLO https://cdn.rawgit.com/vrana/adminer/master/plugins/dump-json.php \
-        && curl -SLO https://cdn.rawgit.com/vrana/adminer/master/plugins/tables-filter.php \
-        && curl -SLO https://cdn.rawgit.com/vrana/adminer/master/plugins/json-column.php \
-        && curl -SLO https://cdn.rawgit.com/vrana/adminer/master/plugins/links-direct.php
+        && curl -SLO https://raw.githubusercontent.com/vrana/adminer/master/plugins/plugin.php \
+        && curl -SLO https://raw.githubusercontent.com/vrana/adminer/master/plugins/dump-bz2.php \
+        && curl -SLO https://raw.githubusercontent.com/vrana/adminer/master/plugins/dump-zip.php \
+        && curl -SLO https://raw.githubusercontent.com/vrana/adminer/master/plugins/dump-date.php \
+        && curl -SLO https://raw.githubusercontent.com/vrana/adminer/master/plugins/dump-json.php \
+        && curl -SLO https://raw.githubusercontent.com/vrana/adminer/master/plugins/tables-filter.php \
+        && curl -SLO https://raw.githubusercontent.com/vrana/adminer/master/plugins/json-column.php
         ) \
     && rm -rf adminer-theme-master master.zip
 )
@@ -47,7 +46,6 @@ cat << 'EOF' > ${DOCKAGE_WEBROOT_DIR}/index.php
             new AdminerDumpJson(),
             new AdminerDumpZip(),
             new AdminerJsonColumn(),
-            new AdminerLinksDirect(),
             new AdminerTablesFilter()
         );
 
