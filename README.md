@@ -59,3 +59,10 @@ docker rm adminer
 ```bash
 docker run --name=adminer -d [OPTIONS] dockage/adminer:latest
 ```
+
+## Quick reference
+* Where to get help: [website](https://dockage.dev/), [documentation](https://dockage.dev/docs/)
+* GitHub repo: [dockage/adminer](https://github.com/dockage/adminer)
+* Where to file issues: [GitHub issues](https://github.com/dockage/adminer/issues)
+* Maintained by: The Dockage team (info at dockage.dev)
+* License(s) - [license](https://github.com/dockage/adminer/blob/main/LICENSE), check 3rd party documentation for license information
